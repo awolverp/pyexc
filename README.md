@@ -20,16 +20,17 @@ pyexc.raise_exc() # or pyexc.print_exc() or ...
 ## Installation
 > requirements: **setuptools**
 
-Use **PIP** to install:
-```bash
-$ pip3 install -U pyexc
-```
-
-Or **clone** project from here and install by *setup.py* file:
+**clone** project from here and install by *setup.py* file:
 ```bash
 python3 setup.py install
 ```
 Or `python3 setup.py build` if you want just build it.
+
+------
+(Linux Only) Use **PIP** to install:
+```bash
+$ pip3 install -U pyexc
+```
 
 ## API
 **Pyexc** includes 7 functions:
