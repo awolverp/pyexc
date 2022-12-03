@@ -11,8 +11,8 @@ setup(
     name="pyexc",
     version="1.0.0a0",
     description="PyExc - Python C Extension to Manage Exceptions ...",
-    author="awolverp",
     long_description=data,
+    url="https://github.com/awolverp/pyexc/",
     long_description_content_type = "text/markdown",
     project_urls = {
         "Github": "https://github.com/awolverp/pyexc/",
@@ -24,7 +24,7 @@ setup(
         "Programming Language :: C",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: Implementation :: CPython",
-        "License :: OSI Approved :: GNU GPLv3",
+        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)"
     ],
     data_files=[("", [PLACE+"/pyexc/pyexc.pyi"])],
     ext_modules=[
