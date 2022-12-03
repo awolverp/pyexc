@@ -22,7 +22,7 @@ pyexc.raise_exc() # or pyexc.print_exc() or ...
 
 **clone** project from here and install by *setup.py* file:
 ```bash
-python3 setup.py install
+git clone https://github.com/awolverp/pyexc && cd pyexc && python3 setup.py install
 ```
 Or `python3 setup.py build` if you want just build it.
 
