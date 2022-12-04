@@ -17,6 +17,9 @@ except Exception as e:
 pyexc.raise_exc() # or pyexc.print_exc() or ...
 ```
 
+#### NOTE
+This project is my practice to learn Python C Extensions...
+
 ## Installation
 > requirements: **setuptools**
 
@@ -101,7 +104,3 @@ if pyexc.occurred():
     pyexc.print_exc()
     pyexc.clear()
 ```
-
-### TODO
-- Add callback
-- Add call
