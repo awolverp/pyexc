@@ -23,11 +23,9 @@ This project is my practice to learn Python C Extensions...
 ## Installation
 > requirements: **setuptools**
 
-**clone** project from here and install by *setup.py* file:
 ```bash
-git clone https://github.com/awolverp/pyexc && cd pyexc && python3 setup.py install
+pip3 install -U git+https://github.com/awolverp/pyexc
 ```
-Or `python3 setup.py build` if you want just build it.
 
 ## API
 **Pyexc** includes 7 functions:
