@@ -17,8 +17,8 @@ setup(
     author="awolverp",
     author_email="awolverp@gmail.com",
     url="https://github.com/awolverp/pyexc",
-    data_files=[("", [join_path(["pyexc", "pyexc.pyi"])])],
-    include_package_data=True,
+    # data_files=[("", [join_path(["pyexc", "pyexc.pyi"])])],
+    package_data={"":  [join_path(["pyexc", "pyexc.pyi"])]},
     ext_modules=[
         Extension(
             "pyexc",
