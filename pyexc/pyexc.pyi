@@ -1,88 +1,116 @@
-import typing, types
+import typing
 
-def data() -> typing.Tuple[typing.Union[BaseException, None], typing.Any]:
+def occurred(state: int = ...) -> bool:
     """
-    Returns setted exception/args as tuple.
-
-    Example::
-
-        pyexc.set(TypeError, "h")
-        pyexc.data()
-        # (<class 'TypeError'>, "h")
+    If an exception is occurred, returns `True`, otherwise `False`.
     """
     ...
 
-def clear() -> bool:
+def clear(state: int = ...) -> bool:
     """
-    Clears setted exception and args.
-
-    Returns:
-        Returns True if ok.
+    If an exception is occurred and successfully erased, Returns `True`, otherwise `False`.
     """
     ...
 
-def set(
-    type: typing.Union[BaseException, typing.Type[BaseException]],
-    args: str = ..., block: bool = ...
-) -> bool:
+def clearAll() -> bool:
     """
-    Set exception.
+    If any exception is occurred and successfully erased, returns `True`, otherwise `False`.
+    """
+    ...
+
+def getExc(state: int = ...) -> typing.Union[BaseException, typing.Type[BaseException], None]:
+    """
+    Returns the exception which is occurred in `state` scope.
+
+    If any exception not occurred in `state` scope, returns `None`.
+    """
+    ...
+
+def setExc(exc: typing.Union[BaseException, typing.Type[BaseException]], state: int = ..., block: bool = ...) -> bool:
+    """
+    Set an exception in `state` scope.
 
     Parameters:
-        type [`BaseException | Type[BaseException]`] Exception type.
-
-        args [`str`] Exception argument.
+        exc (`BaseException | Type[BaseException]`):
+            An instance of `BaseException`.
         
-        block [`bool`] If True and an exception setted, break and returns False. (default False)
-
-    Returns:
-        Returns True if setted.
-    """
-    ...
-
-def raise_exc(default: typing.Union[BaseException, typing.Type[BaseException]] = ...) -> typing.NoReturn:
-    """
-    Raise setted exception.
-
-    Parameters:
-        default [`BaseException | Type[BaseException]`] Default exception if not exception setted. (default SystemError)
-    """
-    ...
-
-def occurred() -> bool:
-    """
-    Returns True if an exception setted.
-    """
-    ...
-
-def print_exc(exception: typing.Union[BaseException, typing.Type[BaseException]] = ...) -> None:
-    """
-    Print exception in `stderr` (with traceback).
-
-    Parameters:
-        exception [`BaseException`] an raised exception to print.
+        state (`int`):
+            scope.
+        
+        block (`bool`):
+            If True and already any exception have occurred in `state` scope, returns `False`.
     
-    Example::
-
-        pyexc.set(TypeError)
-        pyexc.print_exc()
-        # or
-        try:
-            raise TypeError
-        except Exception as e:
-            pyexc.print_exc(e)
+    Returns:
+        `True` if setted, otherwise `False`.
     """
     ...
 
-def exc_info() -> typing.Tuple[
-    typing.Union[None, BaseException, typing.Type[BaseException]],
-    typing.Union[None, typing.Any, typing.Tuple[typing.Any, ...]],
-    typing.Union[None, types.TracebackType]
-]:
+def raiseExc(state: int = ..., clear: bool = ...) -> typing.NoReturn:
     """
-    Returns exception info as tuple.
+    Raise the exception which is occurred in `state` scope. If any exception not occurred in `state` scope, will raise `SystemError`.
 
-    Returns:
-        Returns pack of setted exception, exception args or setted data, and exception traceback.
+    Parameters:
+        state (`int`):
+            scope.
+        
+        clear (`bool`):
+            will erase the exception after raise - default `True`.
+    """
+    ...
+
+def printExc(state: int = ..., clear: bool = ...) -> bool:
+    """
+    Print the exception which is occurred in `state` scope.
+
+    Parameters:
+        state (`int`):
+            scope.
+        
+        clear (`bool`):
+            will erase the exception after print - default True.
+    """
+    ...
+
+def setCallback(callback: typing.Callable[[int, typing.Union[BaseException, typing.Type[BaseException]]], None]) -> None:
+    """
+    Set callback function.
+    The callback function will call after each use of `setExc`.
+
+    Callback Function Arguments:
+        state (`int`):
+            scope.
+        
+        exc (`BaseException | Type[BaseException]`):
+            An instance of BaseException.
+    """
+    ...
+
+def lenStates() -> int:
+    """
+    Returns `len(states)`.
+    """
+    ...
+
+def maxState() -> int:
+    """
+    Returns the biggest number of states.
+    """
+    ...
+
+def states() -> typing.List[int]:
+    """
+    Returns states.
+    """
+    ...
+
+def version() -> typing.Tuple[int, int, int]:
+    """
+    Returns PyExc version as tuple.
+    """
+    ...
+
+def __sizeof__() -> int:
+    """
+    Returns allocated memory size in `Bytes`.
     """
     ...

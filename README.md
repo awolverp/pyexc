@@ -1,104 +1,306 @@
-# Pyexc
-Simple python exception managing written in C as python extension.
+<h1 align=center>
+    PyExc
+</h1>
+<p align=center>
+    a Python library written in C - Manage exceptions.
+</p>
 
-> version: 1.0.0 - alpha
+<p align=center>
+    <a href="#install">Install</a> - <a href="#usage">Usage</a> - <a href="#memory-usage">Memory Usage</a> - <a href="#speed">Speed</a>
+</p>
 
-> **ThreadSafe**
+----
 
-> License: *GNU GPLv3*
+> Version: 1.0.0 - **Thread-Safe** (License: GNU GPLv3)
 
+###### Example:
 ```python
+import pyexc
+
+def handle_exceptions(state, exc):
+    pyexc.printExc(state=state)
+
+pyexc.setCallback(handle_exceptions)
+
 try:
     # ...
 except Exception as e:
-    pyexc.set(e)
-
-# ...
-pyexc.raise_exc() # or pyexc.print_exc() or ...
+    pyexc.setExc(e) # will call handle_exceptions
 ```
 
-#### NOTE
-This project is my practice to learn Python C Extensions...
+**NOTE** \
+This repo is my practice to learn Python C Extension ...
 
-## Installation
-> requirements: **setuptools**
+----
 
+## Install
+Install from **REPO**:
 ```bash
 pip3 install -U git+https://github.com/awolverp/pyexc
 ```
 
-## API
-**Pyexc** includes 7 functions:
-- includes:
-    - [data](#def-data---tuplebaseexception--none-any)
-    - [clear](#def-clear---bool)
-    - [occurred](#def-occurred---bool)
-    - [set](#def-settype-baseexception--typebaseexception-args-str---block-bool-----bool)
-    - [raise_exc](#def-raise_excdefault-baseexception--typebaseexception-----noreturn)
-    - [print_exc](#def-print_excexception-baseexception--typebaseexception-----none)
-    - [exc_info](#exc_info----tuplebaseexceptiontypebaseexceptionnone-anynone-tracebacktypenone)
+> requirements: *setuptools*
 
-#### def data() -> Tuple[BaseException | None, Any]
-Returns setted exception/args as tuple.
-```python
-pyexc.set(TypeError, "Hi")
-pyexc.data() # (<class 'TypeError'>, "Hi")
-```
+## Usage
 
-#### def clear() -> bool
-Clears setted exception and args. \
-Returns True if ok.
+**How it works?** Its function is very simple. Suppose you have a dictionary whose key is the number named `state` and value is `Exception`.
+You put any exception to this dictionary with `setExc` function and manage that by other functions.
 
-#### def occurred() -> bool
-Returns True if an exception setted.
+See [example](#example) / [examples](#examples).
 
-#### def set(type: BaseException | Type[BaseException], args: str = ..., block: bool = ...) -> bool
-Set exception.
 
-- Parameters:
-    - type [`BaseException | Type[BaseException]`] Exception type.
-    - args [`str`] Exception argument.
-    - block [`bool`] If True and an exception setted, break and returns False. (default False)
+- **Content**:
+    - [API Manual](#api-manual)
+    - [Examples](#examples)
 
-Returns True if setted.
+## API Manual
+**Pyexc** includes 13 functions:
 
-#### def raise_exc(default: BaseException | Type[BaseException] = ...) -> NoReturn
-Raise setted exception.
+- [occurred](#occurred)
+- [clear](#clear)
+- [clearAll](#clearall)
+- [getExc](#getexc)
+- [setExc](#setexc)
+- [raiseExc](#raiseexc)
+- [printExc](#printexc)
+- [setCallback](#setcallback)
+- [lenStates](#lenstates)
+- [maxState](#maxstate)
+- [states](#states)
+- [version](#version)
+- [__ sizeof __](#__-sizeof-__)
 
-- Parameters:
-    - default [`BaseException | Type[BaseException]`] Default exception if not exception setted. (default SystemError)
-
-#### def print_exc(exception: BaseException | Type[BaseException] = ...) -> None
-Print exception in stderr (with traceback).
-
-- Parameters:
-    - exception [`BaseException`] an raised exception to print.
+#### occurred
+If an exception is occurred, returns `True`, otherwise `False`.
 
 ```python
-pyexc.set(TypeError)
-pyexc.print_exc()
-# or
-try:
-    raise TypeError()
-except Exception as e:
-    pyexc.print_exc(e)
+pyexc.occurred(state: int = ...) -> bool
 ```
 
-#### exc_info: () -> Tuple[BaseException|Type[BaseException]|None, Any|None, TracebackType|None]
-Returns pack of setted exception, exception args or setted data, and exception traceback.
+#### clear
+If an exception is occurred and successfully erased, Returns `True`, otherwise `False`.
 
-## Example
+```python
+pyexc.clear(state: int = ...) -> bool
+```
+
+#### clearAll
+If any exception is occurred and successfully erased, returns `True`, otherwise `False`.
+
+```python
+pyexc.clearAll() -> bool
+```
+
+#### getExc
+Returns the exception which is occurred in `state` scope. \
+If any exception not occurred in `state` scope, returns `None`.
+
+```python
+getExc(state: int = ...) -> BaseException | Type[BaseException] | None
+```
+
+#### setExc
+Set an exception in `state` scope.
+
+- **Parameters:**
+    - exc:
+        An instance of `BaseException`.
+    
+    - state:
+        scope.
+    
+    - block:
+        If True and already any exception have occurred in `state` scope, returns `False`.
+
+Returns: `True` if setted, otherwise `False`.
+
+```python
+setExc(exc: BaseException | Type[BaseException], state: int = ..., block: bool = ...) -> bool
+```
+
+#### raiseExc
+Raise the exception which is occurred in `state` scope.
+If any exception not occurred in `state` scope, will raise `SystemError`.
+
+- **Parameters:**
+    - state:
+        scope.
+    
+    - clear:
+        will erase the exception after raise - default `True`.
+
+```python
+raiseExc(state: int = ..., clear: bool = ...) -> NoReturn
+```
+
+#### printExc
+Print the exception which is occurred in `state` scope.
+
+- **Parameters:**
+    - state:
+        scope.
+    
+    - clear:
+        will erase the exception after print - default `True`.
+
+```python
+printExc(state: int = ..., clear: bool = ...) -> bool
+```
+
+#### setCallback
+Set callback function.
+The callback function will call after each use of `setExc`.
+
+- **Callback Function Arguments:**
+    - state (`int`):
+        scope.
+    
+    - exc (`BaseException | Type[BaseException]`):
+        An instance of BaseException.
+
+```python
+setCallback(callback: (int, BaseException | Type[BaseException]) -> None) -> None:
+```
+
+#### lenStates
+Returns `len(states)`.
+
+```python
+lenStates() -> int
+```
+
+#### maxState
+Returns the biggest number of states.
+
+```python
+maxState() -> int
+```
+
+#### states
+Returns states.
+
+```python
+states() -> list[int]
+```
+
+#### version
+Returns **PyExc** version as tuple.
+
+```python
+version() -> tuple[int, int, int]
+```
+
+#### __ sizeof __
+Returns allocated memory size in `Bytes`.
+
+```python
+__sizeof__() -> int
+```
+
+## Examples
+##### exception
 ```python
 import pyexc
 
-def handler():
+def foo():
     try:
-        ...
+        # ... some code
     except Exception as e:
-        pyexc.set(e)
+        pyexc.setExc(e, state=1)
 
-handler()
-if pyexc.occurred():
-    pyexc.print_exc()
-    pyexc.clear()
+foo()
+
+if pyexc.occurred(state=1):
+    pyexc.raiseExc(state=1)
+```
+
+##### multi exceptions
+```python
+import pyexc
+
+def foo():
+    for i in range(100):
+        try:
+            # ... some code
+        except Exception as e:
+            pyexc.setExc(e, state=i)
+
+foo()
+
+if pyexc.lenStates() != 0:
+    for state in pyexc.states():
+        exc = pyexc.getExc(state=state)
+        # ...
+```
+
+##### multithreading: (not recommended)
+```python
+import threading
+import time
+import pyexc
+
+def handler():
+    for i in range(10):
+        pyexc.setExc(TypeError(i))
+        time.sleep(0.2)
+
+def getter():
+    for i in range(10):
+        pyexc.printExc()
+        time.sleep(0.2)
+
+t1 = threading.Thread(target=handler)
+t2 = threading.Thread(target=getter)
+t1.start()
+t2.start()
+t1.join()
+t2.join()
+```
+
+##### multithreading: (recommended)
+```python
+import threading
+import pyexc
+
+def getter(state, exc):
+    pyexc.printExc(state=state)
+
+pyexc.setCallback(getter)
+
+def handler():
+    for i in range(10):
+        pyexc.setExc(TypeError(i))
+        time.sleep(0.2)
+
+t1 = threading.Thread(target=handler)
+t1.start()
+t1.join()
+```
+
+### Memory Usage
+**PyExc** uses **Very Low** memory. *1/3* dict memory usage.
+
+```python
+>>> import pyexc
+>>> for i in range(1000): pyexc.setExc(TypeError(), state=i)
+>>> pyexc.__sizeof__()
+12000 # 12000 Bytes
+
+>>> d = dict()
+>>> for i in range(1000): d[i] = TypeError()
+>>> d.__sizeof__()
+36944 # 36944 Bytes
+```
+
+### Speed
+**PyExc** is **slower than** dict.
+
+```python
+>>> import pyexc
+>>> %timeit for i in range(1000): pyexc.setExc(TypeError(), state=i)
+1000 loops, best of 5: 599 µs per loop
+
+>>> d = dict()
+>>> %timeit for i in range(1000): d[i] = TypeError()
+1000 loops, best of 5: 124 µs per loop
 ```
