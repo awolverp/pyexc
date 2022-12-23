@@ -8,7 +8,7 @@ join_path = lambda x: os.path.join(BASE, *x)
 with open(join_path(["README.md"]), "r") as f:
     long_description = f.read()
 
-STUBS = join_path(["pyexc-stubs"])
+STUBS = join_path(["pyexc"])
 
 setup(
     name="pyexc",
