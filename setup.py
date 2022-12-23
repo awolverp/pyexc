@@ -21,7 +21,7 @@ setup(
     url="https://github.com/awolverp/pyexc",
     include_package_data=True,
     packages=[STUBS],
-    package_data={STUBS: [join_path(["pyexc-stubs", "__init__.pyi"])]},
+    package_data={STUBS: ["__init__.pyi"]},
     ext_modules=[
         Extension(
             "pyexc",
