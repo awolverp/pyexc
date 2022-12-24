@@ -1,12 +1,14 @@
 from setuptools import (setup, Extension)
-# import os.path
+from os import environ
 
 with open("README.md", "r") as f:
     long_description = f.read()
 
-ext = Extension(
-    "_pyexc", sources=["_pyexc.cpp"], optional=True
-)
+if (environ.get("CEXTENSION", "1") == "1"):
+    extensions = [Extension("_pyexc", sources=["_pyexc.cpp"], optional=True)]
+
+else:
+    extensions = None
 
 setup(
     name="pyexc",
@@ -21,9 +23,7 @@ setup(
     
     url="https://github.com/awolverp/pyexc/",
     
-    ext_modules=[
-        ext    
-    ],
+    ext_modules=extensions,
 
     py_modules=[
         "pyexc"
