@@ -26,7 +26,7 @@ setup(
     ],
 
     py_modules=[
-        "pyexc.py"
+        "pyexc"
     ],
     
     project_urls = {
