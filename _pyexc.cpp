@@ -576,7 +576,7 @@ struct PyModuleDef pyexc_module = {
     .m_free = (freefunc)__pyexc_Free,
 };
 
-PyMODINIT_FUNC PyInit_pyexc() {
+PyMODINIT_FUNC PyInit__pyexc() {
     PyObject* m = PyModule_Create(&pyexc_module);
     if (m == NULL)
         return NULL;
