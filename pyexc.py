@@ -49,6 +49,14 @@ except ImportError:
         with _mutex:
             return _exceptions.get(state, None)
 
+    def _is_exception(exc):
+        try:
+            return isinstance(exc, BaseException) or (
+                BaseException in exc.mro()
+            )
+        except AttributeError:
+            return False
+
     def setExc(exc: typing.Union[BaseException, typing.Type[BaseException]], state: int = 0, block: bool = False) -> bool:
         """
         Set an exception in `state` scope.
@@ -66,7 +74,7 @@ except ImportError:
         Returns:
             `True` if setted, otherwise `False`.
         """
-        if (not isinstance(exc, BaseException) and not isinstance(type(exc), BaseException)):
+        if (not _is_exception(exc)):
             raise TypeError("a BaseException is required for `exc` argument")
         
         with _mutex:
