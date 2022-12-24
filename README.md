@@ -309,7 +309,7 @@ t1.join()
 ```
 
 ## TODO
-[ ] Add `call` function
-[ ] Add decorator function for `setCallback`
-[ ] Add `toString` function
-[ ] Add `writeTo` function
+- [ ] Add `call` function
+- [ ] Add decorator function for `setCallback`
+- [ ] Add `toString` function
+- [ ] Add `writeTo` function
