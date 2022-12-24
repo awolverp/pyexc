@@ -307,3 +307,9 @@ t1.join()
 >>> %timeit for i in range(1000): d[i] = TypeError()
 1000 loops, best of 5: 124 µs per loop
 ```
+
+## TODO
+[ ] Add `call` function
+[ ] Add decorator function for `setCallback`
+[ ] Add `toString` function
+[ ] Add `writeTo` function
