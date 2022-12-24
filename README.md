@@ -309,7 +309,7 @@ t1.join()
 ```
 
 ## TODO
-- [ ] Add python code
+- [x] Add python code
 - [ ] Add `call` function
 - [ ] Add decorator function for `setCallback`
 - [ ] Add `toString` function
