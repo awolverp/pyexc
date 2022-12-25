@@ -460,7 +460,7 @@ static PyObject *Pyexc_States(PyObject *self, PyObject *__unused_args)
     return result;
 }
 
-static PyObject *Pyexc_Version(PyObject *self, PyObject *__unused_args) { return Py_BuildValue("(i,i,i)", 1, 0, 0); }
+static PyObject *Pyexc_Version(PyObject *self, PyObject *__unused_args) { return Py_BuildValue("(i,i,i)", 1, 1, 0); }
 
 static PyObject *Pyexc___sizeof__(PyObject *self, PyObject *__unused_args)
 {
@@ -576,7 +576,7 @@ struct PyModuleDef pyexc_module = {
     .m_free = (freefunc)__pyexc_Free,
 };
 
-PyMODINIT_FUNC PyInit_pyexc() {
+PyMODINIT_FUNC PyInit__pyexc() {
     PyObject* m = PyModule_Create(&pyexc_module);
     if (m == NULL)
         return NULL;

@@ -34,15 +34,25 @@ This repo is my practice to learn Python C Extension ...
 ----
 
 ## Install
-**NOTE:** \
-you need c++ compiler to install **PyExc**.
-
-Install from **REPO**:
+**PIP**:
 ```bash
 pip3 install -U git+https://github.com/awolverp/pyexc
 ```
 
-> requirements: *setuptools*
+**If you don't want to install C++ extension**, use these commands:
+
+**Linux / MacOS**:
+```bash
+CEXTENSION=0 pip3 install -U git+https://github.com/awolverp/pyexc
+```
+
+**Windows**:
+```bash
+set CEXTENSION=0
+pip3 install -U git+https://github.com/awolverp/pyexc
+```
+
+> NOTE: if you haven't c++ compiler, the extension isn't installed automatically.
 
 ## Usage
 
@@ -309,7 +319,7 @@ t1.join()
 ```
 
 ## TODO
-- [ ] Add python code
+- [x] Add python code
 - [ ] Add `call` function
 - [ ] Add decorator function for `setCallback`
 - [ ] Add `toString` function
