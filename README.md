@@ -321,6 +321,6 @@ t1.join()
 ## TODO
 - [x] Add python code
 - [ ] Add `call` function
-- [ ] Add decorator function for `setCallback`
 - [ ] Add `toString` function
 - [ ] Add `writeTo` function
+- [ ] Add tests
