@@ -2,7 +2,7 @@
     PyExc
 </h1>
 <p align=center>
-    a Python library written in C - Manage exceptions.
+    a Python library written in C++ - Manage exceptions.
 </p>
 
 <p align=center>
@@ -11,7 +11,7 @@
 
 ----
 
-> Version: 1.1.0 - **Thread-Safe** (License: GNU GPLv3)
+> Version: 1.1.2 - **Thread-Safe** (License: GNU GPLv3)
 
 ###### Example:
 ```python

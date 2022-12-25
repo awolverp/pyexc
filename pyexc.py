@@ -106,7 +106,9 @@ except ImportError:
             if (exc and clear):
                 _exceptions.pop(state)
         
-        raise (exc or SystemError)
+        raise (
+            exc or SystemError
+        )
 
     def printExc(state: int = 0, clear: bool = True) -> bool:
         """
@@ -127,12 +129,12 @@ except ImportError:
                 _exceptions.pop(state)
         
         if (exc):
-            is_type = isinstance(exc, type)
 
-            traceback.print_exception(
-                exc if is_type else type(exc),
-                tb=exc.__traceback__ if not is_type else None
-            )
+            try:
+                raise exc
+            except:
+                traceback.print_exc()
+            
             return True
         
         return False
@@ -182,7 +184,7 @@ except ImportError:
         """
         Returns PyExc version as tuple.
         """
-        return (1, 1, 0)
+        return (1, 1, 2)
 
     def __sizeof__() -> int:
         """

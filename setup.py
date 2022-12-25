@@ -12,7 +12,7 @@ else:
 
 setup(
     name="pyexc",
-    version="1.1.0",
+    version="1.1.2",
     
     description="Python exception manager written in C++.",
     long_description=long_description,

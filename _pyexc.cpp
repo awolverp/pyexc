@@ -1,5 +1,5 @@
 /*
-PyExc - Python exception manager - 1.0.0 (by awolverp)
+PyExc - Python exception manager - 1.1.2 (by awolverp)
 */
 
 #include <Python.h>
@@ -460,7 +460,7 @@ static PyObject *Pyexc_States(PyObject *self, PyObject *__unused_args)
     return result;
 }
 
-static PyObject *Pyexc_Version(PyObject *self, PyObject *__unused_args) { return Py_BuildValue("(i,i,i)", 1, 1, 0); }
+static PyObject *Pyexc_Version(PyObject *self, PyObject *__unused_args) { return Py_BuildValue("(i,i,i)", 1, 1, 2); }
 
 static PyObject *Pyexc___sizeof__(PyObject *self, PyObject *__unused_args)
 {
