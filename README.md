@@ -11,7 +11,7 @@
 
 ----
 
-> Version: 1.0.0 - **Thread-Safe** (License: GNU GPLv3)
+> Version: 1.1.0 - **Thread-Safe** (License: GNU GPLv3)
 
 ###### Example:
 ```python
