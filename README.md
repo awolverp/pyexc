@@ -39,10 +39,8 @@ This repo is my practice to learn Python C Extension ...
 pip3 install -U git+https://github.com/awolverp/pyexc
 ```
 
-**NOTE**: \
-You need c++ compiler to install **PyExc** extension.
+**If you don't want to install C++ extension**, use these commands:
 
-If you haven't it, Follow your OS:
 **Linux / MacOS**:
 ```bash
 CEXTENSION=0 pip3 install -U git+https://github.com/awolverp/pyexc
@@ -53,6 +51,8 @@ CEXTENSION=0 pip3 install -U git+https://github.com/awolverp/pyexc
 set CEXTENSION=0
 pip3 install -U git+https://github.com/awolverp/pyexc
 ```
+
+> NOTE: if you haven't c++ compiler, the extension isn't installed automatically.
 
 ## Usage
 
