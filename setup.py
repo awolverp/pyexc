@@ -37,6 +37,7 @@ setup(
     classifiers = [
         "Programming Language :: C++",
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: Implementation :: PyPy",
         "Programming Language :: Python :: Implementation :: CPython",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)"
     ]
