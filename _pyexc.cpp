@@ -349,7 +349,11 @@ static PyObject *Pyexc_RaiseExc(PyObject *self, PyObject *args, PyObject *kwds)
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "|ip", keywords, &state_n, &clear))
         return NULL;
     
-    PyExcState *state = getstate(self);
+    PyExcState* state;
+
+    Py_BEGIN_ALLOW_THREADS
+        state = getstate(self);
+    Py_END_ALLOW_THREADS
 
     _internal_pyexc_raise_exc(state, state_n, clear);
 
@@ -372,7 +376,11 @@ static PyObject *Pyexc_PrintExc(PyObject *self, PyObject *args, PyObject *kwds)
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "|ip", keywords, &state_n, &clear))
         return NULL;
     
-    PyExcState *state = getstate(self);
+    PyExcState* state;
+
+    Py_BEGIN_ALLOW_THREADS
+        state = getstate(self);
+    Py_END_ALLOW_THREADS
 
     return PyBool_FromLong((long)_internal_pyexc_print_exc(state, state_n, clear));
 }
@@ -405,6 +413,44 @@ static PyObject *Pyexc_SetCallback(PyObject *self, PyObject *args, PyObject *kwd
     Py_RETURN_NONE;
 }
 
+<<<<<<< HEAD
+=======
+static PyObject *Pyexc_Call(PyObject *self, PyObject *args, PyObject *kwds)
+{
+    static char *keywords[] = {(char *)"func", (char *)"state", (char *)"args", (char *)"kwargs", NULL};
+    PyObject* func = NULL;
+    int state_n = 0;
+    PyObject* args_func = NULL;
+    PyObject* kwargs_func = NULL;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "O|iOO", keywords, &func, &state_n, &args_func, &kwargs_func))
+        return NULL;
+    
+    PyExcState* state;
+
+    Py_BEGIN_ALLOW_THREADS
+        state = getstate(self);
+    Py_END_ALLOW_THREADS
+
+    PyObject* result = _internal_pyexc_call(state, state_n, func, args_func, kwargs_func);
+    return result;
+}
+
+static PyObject *Pyexc_RCall(PyObject *self, PyObject *args, PyObject *kwds)
+{
+    static char *keywords[] = {(char *)"func", (char *)"args", (char *)"kwargs", NULL};
+    PyObject* func = NULL;
+    PyObject* args_func = NULL;
+    PyObject* kwargs_func = NULL;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "O|OO", keywords, &func, &args_func, &kwargs_func))
+        return NULL;
+
+    PyObject* result = _internal_pyexc_rcall(func, args_func, kwargs_func);
+    return result;
+}
+
+>>>>>>> Update to 1.3.1
 static PyObject *Pyexc_LenStates(PyObject *self, PyObject *__unused_args)
 {
     size_t result = 0;

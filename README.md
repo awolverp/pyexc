@@ -320,7 +320,12 @@ t1.join()
 
 ## TODO
 - [x] Add python code
+<<<<<<< HEAD
 - [ ] Add `call` function
+=======
+- [x] Add `call` function
+- [x] Add `rcall` function
+>>>>>>> Update to 1.3.1
 - [ ] Add `toString` function
 - [ ] Add `writeTo` function
 - [ ] Add tests

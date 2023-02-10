@@ -20,15 +20,12 @@ setup(
     
     author="awolverp",
     author_email="awolverp@gmail.com",
-    
     url="https://github.com/awolverp/pyexc/",
     
     ext_modules=extensions,
-
     py_modules=[
         "pyexc"
     ],
-    
     project_urls = {
         "Github": "https://github.com/awolverp/pyexc/",
         "Bug Tracker": "https://github.com/awolverp/pyexc/issues/new",

@@ -86,7 +86,7 @@ except ImportError:
             if (_callback):
                 _callback(state, exc)
 
-            return True
+        return True
 
     def raiseExc(state: int = 0, clear: bool = True) -> typing.NoReturn:
         """
