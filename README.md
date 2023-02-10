@@ -11,16 +11,15 @@
 
 ----
 
-> Version: 1.1.2 - **Thread-Safe** (License: GNU GPLv3)
+> Version: 1.3.2 - **Thread-Safe** (License: GNU GPLv3)
 
 ###### Example:
 ```python
 import pyexc
 
+@pyexc.setCallback
 def handle_exceptions(state, exc):
     pyexc.printExc(state=state)
-
-pyexc.setCallback(handle_exceptions)
 
 try:
     # ...
@@ -69,19 +68,32 @@ See [example](#example) / [examples](#examples).
 ## API Manual
 **Pyexc** includes 13 functions:
 
-- [occurred](#occurred)
-- [clear](#clear)
-- [clearAll](#clearall)
-- [getExc](#getexc)
-- [setExc](#setexc)
-- [raiseExc](#raiseexc)
-- [printExc](#printexc)
-- [setCallback](#setcallback)
-- [lenStates](#lenstates)
-- [maxState](#maxstate)
-- [states](#states)
-- [version](#version)
-- [__ sizeof __](#__-sizeof-__)
+- [Install](#install)
+- [Usage](#usage)
+- [API Manual](#api-manual)
+    - [occurred](#occurred)
+    - [clear](#clear)
+    - [clearAll](#clearall)
+    - [getExc](#getexc)
+    - [setExc](#setexc)
+    - [raiseExc](#raiseexc)
+    - [printExc](#printexc)
+    - [setCallback](#setcallback)
+    - [call](#call)
+    - [rcall](#rcall)
+    - [lenStates](#lenstates)
+    - [maxState](#maxstate)
+    - [states](#states)
+    - [version](#version)
+    - [\_\_ sizeof \_\_](#__-sizeof-__)
+- [Examples](#examples)
+      - [exception](#exception)
+      - [multi exceptions](#multi-exceptions)
+      - [multithreading: (not recommended)](#multithreading-not-recommended)
+      - [multithreading: (recommended)](#multithreading-recommended)
+  - [Memory Usage](#memory-usage)
+  - [Speed](#speed)
+- [TODO](#todo)
 
 #### occurred
 If an exception is occurred, returns `True`, otherwise `False`.
@@ -174,6 +186,38 @@ The callback function will call after each use of `setExc`.
 ```python
 setCallback(callback: (int, BaseException | Type[BaseException]) -> None) -> None:
 ```
+
+#### call
+Calls `func` with `args` and `kwargs` parameters.
+If `func` raised exception, exception will sets in `state` scope and returns `None`.
+
+- **Parameters**:
+    - func (`Callable`):
+        function.
+    
+    - state (`int`):
+        scope.
+    
+    - args (`tuple`):
+        function args.
+    
+    - kwargs (`dict[str, Any]`):
+        function kwargs.
+
+```python
+call(func: (...) -> Any, state:int=0, args:tuple=(), kwargs:dict={}) -> Any
+```
+
+> **Note**: [**C EXTENSION bug**]: `pyexc.call` has a bug in c extension that dowsn't keep exception values and just keeps type of it.
+
+#### rcall
+Like `pyexc.call` but returns exception instead of set in `state` scope.
+
+```python
+rcall(func: (...) -> Any, args:tuple=(), kwargs:dict={}) -> Any
+```
+
+> **Note**: [**C EXTENSION bug**]: `pyexc.rcall` has a bug in c extension that doesn't return exception values and just returns type of it.
 
 #### lenStates
 Returns `len(states)`.
@@ -320,12 +364,7 @@ t1.join()
 
 ## TODO
 - [x] Add python code
-<<<<<<< HEAD
-- [ ] Add `call` function
-=======
 - [x] Add `call` function
 - [x] Add `rcall` function
->>>>>>> Update to 1.3.1
 - [ ] Add `toString` function
 - [ ] Add `writeTo` function
-- [ ] Add tests

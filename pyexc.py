@@ -1,7 +1,7 @@
 try:
     from _pyexc import (
-        occurred, clear, clearAll, getExc, setExc, raiseExc, printExc, setCallback, lenStates,
-        maxState, states, version, __sizeof__
+        occurred, clear, clearAll, getExc, setExc, raiseExc, printExc, setCallback,
+        call, rcall, lenStates, maxState, states, version, __sizeof__
     )
     CEXTENSION = True
 except ImportError:
@@ -159,6 +159,62 @@ except ImportError:
         with _mutex:
             _callback = callback
 
+    def call(func: typing.Callable, state: int = 0, args: tuple = (), kwargs: dict = {}) -> typing.Any:
+        """
+        Calls `func` with `args` and `kwargs` parameters.
+        If `func` raised exception, exception will sets in `state` scope and returns `None`.
+
+        Parameters:
+            func (`Callable`):
+                function.
+            
+            state (`int`):
+                scope.
+            
+            args (`tuple`):
+                function args.
+            
+            kwargs (`dict`):
+                function kwargs.
+        """
+        if not callable(func):
+            raise TypeError("func must be callable.")
+        
+        if not isinstance(kwargs, dict):
+            raise TypeError("kwargs must be dict.")
+        
+        if not isinstance(args, tuple):
+            raise TypeError("args must be tuple.")
+
+        try:
+            return func(*args, **kwargs)
+        except Exception as exc:
+            with _mutex:
+                _exceptions[state] = exc
+
+                if (_callback):
+                    _callback(state, exc)
+
+            return None
+    
+    def rcall(func: typing.Callable, args: tuple = (), kwargs: dict = {}) -> typing.Any:
+        """
+        Like `pyexc.call` but returns exception instead of set in `state` scope.
+        """
+        if not callable(func):
+            raise TypeError("func must be callable.")
+        
+        if not isinstance(kwargs, dict):
+            raise TypeError("kwargs must be dict.")
+        
+        if not isinstance(args, tuple):
+            raise TypeError("args must be tuple.")
+
+        try:
+            return func(*args, **kwargs)
+        except Exception as exc:
+            return exc
+
     def lenStates() -> int:
         """
         Returns `len(states)`.
@@ -184,7 +240,7 @@ except ImportError:
         """
         Returns PyExc version as tuple.
         """
-        return (1, 1, 2)
+        return (1, 3, 2)
 
     def __sizeof__() -> int:
         """

@@ -196,6 +196,85 @@ static inline int _internal_pyexc_call_callback(PyExcState* state, int state_n, 
     Py_DECREF(result);
     return 1;
 }
+static inline PyObject* _internal_pyexc_call(PyExcState* state, int state_n, PyObject* func, PyObject* args, PyObject* kwargs)
+{
+    if (func == NULL || !PyCallable_Check(func)) {
+        PyErr_SetString(PyExc_TypeError, "func must be callable.");
+        return NULL;
+    }
+
+    bool clear_args = false;
+    if (args == NULL) {
+        args = Py_BuildValue("()");
+        clear_args = true;
+    }
+    if (!PyTuple_Check(args)) {
+        // exit carefully
+        if (clear_args) {
+            Py_DECREF(args);
+        }
+
+        PyErr_SetString(PyExc_TypeError, "args must be tuple.");
+        return NULL;
+    }
+
+    PyObject* result = PyObject_Call(func, args, kwargs);
+
+    if (clear_args) {
+        Py_DECREF(args);
+    }
+
+    if (result == NULL) {
+        PyObject *type = PyErr_Occurred();
+        
+
+        if (type != NULL) {
+            _internal_pyexc_set_exc(state, state_n, type, 0);
+            PyErr_Clear();
+        }
+        Py_RETURN_NONE;
+    }
+    return result;
+}
+static inline PyObject* _internal_pyexc_rcall(PyObject* func, PyObject* args, PyObject* kwargs)
+{
+    if (func == NULL || !PyCallable_Check(func)) {
+        PyErr_SetString(PyExc_TypeError, "func must be callable.");
+        return NULL;
+    }
+
+    bool clear_args = false;
+    if (args == NULL) {
+        args = Py_BuildValue("()");
+        clear_args = true;
+    }
+
+    if (!PyTuple_Check(args)) {
+        // exit carefully
+        if (clear_args) {
+            Py_DECREF(args);
+        }
+
+        PyErr_SetString(PyExc_TypeError, "args must be tuple.");
+        return NULL;
+    }
+
+    PyObject* result = PyObject_Call(func, args, kwargs);
+
+    if (clear_args) {
+        Py_DECREF(args);
+    }
+
+    if (result == NULL) {
+        PyObject* exc = PyErr_Occurred();
+        if (exc != NULL) {
+            result = exc;
+            Py_INCREF(result);
+            PyErr_Clear();
+        }
+    }
+    return result;
+}
 
 /*
 - Functions
@@ -413,8 +492,6 @@ static PyObject *Pyexc_SetCallback(PyObject *self, PyObject *args, PyObject *kwd
     Py_RETURN_NONE;
 }
 
-<<<<<<< HEAD
-=======
 static PyObject *Pyexc_Call(PyObject *self, PyObject *args, PyObject *kwds)
 {
     static char *keywords[] = {(char *)"func", (char *)"state", (char *)"args", (char *)"kwargs", NULL};
@@ -450,7 +527,6 @@ static PyObject *Pyexc_RCall(PyObject *self, PyObject *args, PyObject *kwds)
     return result;
 }
 
->>>>>>> Update to 1.3.1
 static PyObject *Pyexc_LenStates(PyObject *self, PyObject *__unused_args)
 {
     size_t result = 0;
@@ -506,7 +582,7 @@ static PyObject *Pyexc_States(PyObject *self, PyObject *__unused_args)
     return result;
 }
 
-static PyObject *Pyexc_Version(PyObject *self, PyObject *__unused_args) { return Py_BuildValue("(i,i,i)", 1, 1, 2); }
+static PyObject *Pyexc_Version(PyObject *self, PyObject *__unused_args) { return Py_BuildValue("(i,i,i)", 1, 3, 2); }
 
 static PyObject *Pyexc___sizeof__(PyObject *self, PyObject *__unused_args)
 {
@@ -596,6 +672,28 @@ static PyMethodDef pyexc_methods[] = {
         "       scope.\n" \
         "   exc (`BaseException | Type[BaseException]`):\n" \
         "       An instance of BaseException."
+    },
+    {
+        "call", (PyCFunction)Pyexc_Call, METH_VARARGS | METH_KEYWORDS,
+        "Calls `func` with `args` and `kwargs` parameters. " \
+        "If `func` raised exception, exception will sets in `state` scope and returns `None`.\n\n" \
+
+        "Parameters:\n"
+        "    func (`Callable`):\n"
+        "        function.\n"
+            
+        "    state (`int`):\n"
+        "        scope.\n"
+            
+        "    args (`tuple`):\n"
+        "        function args.\n"
+            
+        "    kwargs (`dict`):\n"
+        "        function kwargs.\n"
+    },
+    {
+        "rcall", (PyCFunction)Pyexc_RCall, METH_VARARGS | METH_KEYWORDS,
+        "Like `pyexc.call` but returns exception instead of set in `state` scope."
     },
     
     {
