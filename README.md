@@ -208,7 +208,7 @@ If `func` raised exception, exception will sets in `state` scope and returns `No
 call(func: (...) -> Any, state:int=0, args:tuple=(), kwargs:dict={}) -> Any
 ```
 
-> **Note**: [**C EXTENSION bug**]: `pyexc.call` has a bug in c extension that dowsn't keep exception values and just keeps type of it.
+> **Note**: [**C EXTENSION bug**]: `pyexc.call` has a bug in c extension that doesn't keep exception values and just keeps type of it.
 
 #### rcall
 Like `pyexc.call` but returns exception instead of set in `state` scope.
