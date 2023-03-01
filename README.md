@@ -87,12 +87,8 @@ See [example](#example) / [examples](#examples).
     - [version](#version)
     - [\_\_ sizeof \_\_](#__-sizeof-__)
 - [Examples](#examples)
-      - [exception](#exception)
-      - [multi exceptions](#multi-exceptions)
-      - [multithreading: (not recommended)](#multithreading-not-recommended)
-      - [multithreading: (recommended)](#multithreading-recommended)
-  - [Memory Usage](#memory-usage)
-  - [Speed](#speed)
+- [Memory Usage](#memory-usage)
+- [Speed](#speed)
 - [TODO](#todo)
 
 #### occurred
