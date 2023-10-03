@@ -9,6 +9,8 @@
     <a href="#install">Install</a> - <a href="#usage">Usage</a> - <a href="#memory-usage">Memory Usage</a> - <a href="#speed">Speed</a>
 </p>
 
+> ⚠️ **NOTE**: I archived this project because i found a little memory leak in this project, i couldn't solve that.
+
 ----
 
 > Version: 1.3.2 - **Thread-Safe** (License: GNU GPLv3)
