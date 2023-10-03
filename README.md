@@ -9,7 +9,7 @@
     <a href="#install">Install</a> - <a href="#usage">Usage</a> - <a href="#memory-usage">Memory Usage</a> - <a href="#speed">Speed</a>
 </p>
 
-> ⚠️ **NOTE**: I archived this project because i found a little memory leak in this project, i couldn't solve that.
+> ⚠️ **NOTE**: I archived this project because i found a little memory leak in this c++ part, i couldn't solve that.
 
 ----
 
